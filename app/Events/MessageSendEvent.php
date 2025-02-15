@@ -17,6 +17,7 @@ class MessageSendEvent implements ShouldBroadcastNow
 
     /**
      * Create a new event instance.
+     * todo
      */
     public function __construct(public Chat $message)
     {
