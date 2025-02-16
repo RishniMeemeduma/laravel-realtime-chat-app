@@ -3,6 +3,7 @@ on :
   pull_request:
     types:
       - closed
+    if: github.event.pull_request.merged == false
 
 jobs:
   no-plans-to-merge:
