@@ -10,7 +10,7 @@ class createNewUser
         //
     }
 
-    public function createNewUser()  {
+    public function createNewUser(){
         return [
             'newUser' => 'newUser',
         ];
