@@ -19,26 +19,21 @@ jobs:
           MYSQL_DATABASE: laravel
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
+    env:
+      PHP_VERSION: 8.4
+      PHP_EXTENSIONS: dom, curl, mbstring, zip, gd, pdo, pdo_mysql, redis, libxml, xml, xmlreader, xmlwriter, simplexml, json, fileinfo, posix, pcntl, tokenizer, bcmath, ctype, session, tokenizer
+      CACHE_KEY: extension-cache-v1
 
     permissions:
       issues: write
       pull-requests: write
+
     steps: 
      - name : Checkout code
        uses: actions/checkout@v4.2.2
 
-     - name : setup php and composer
-       uses: shivammathur/setup-php@2.32.0
-       with:
-        php-version: '8.4'
-        tools: composer:v2
-        extensions: mbstring, pdo, pdo_mysql
-
-    -  name: cache dependencies
-       uses: actions/cache@v4.2.0
-       with: 
-          key: composer-cache-${{ hashFiles('**/composer.lock')}}
-          path: /vendor
+     - name: setup
+       uses: ./.github/actions/setup
 
         
      - name : install dependencies

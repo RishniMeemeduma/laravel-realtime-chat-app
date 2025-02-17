@@ -1,0 +1,38 @@
+name : setup
+description: 'Setup PHP and Composer' 
+runs : 
+  using: 'composite'
+  steps:
+    - name: Setup cache environment
+      id: extcache
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        extensions: ${{ env.PHP_EXTENSIONS }}
+        key: ${{ env.CACHE_KEY }}
+
+    - name: Cache extensions
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.extcache.outputs.dir }}
+        key: ${{ steps.extcache.outputs.key }}
+        restore-keys: ${{ steps.extcache.outputs.key }}
+
+    - name : setup php and composer
+      uses: shivammathur/setup-php@2.32.0
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+        tools:  composer:v2
+        extensions: ${{ env.PHP_EXTENSIONS }}
+    
+    - name: get composer cache dir
+      id: composer-cache-dir
+      run : echo dir= $(composer config cache-files-dir) >> $GITHUB_OUTPUT
+      shell: bash
+
+
+    - name: cache dependencies
+      uses: actions/cache@v4.2.0
+      with: 
+          key: composer-cache-${{ hashFiles('**/composer.lock')}}
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
