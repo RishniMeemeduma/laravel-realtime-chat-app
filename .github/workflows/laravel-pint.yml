@@ -26,4 +26,9 @@ jobs:
        run : pint
 
      - name : push changes to PR
-       run : echo 'Todo'
+       run : |
+        git config --global user.name 'laravel pint'
+        git config --global user.email 'pint@gmail.com'
+        git add .
+        git commit -m "pint" || exit 0
+        git push
