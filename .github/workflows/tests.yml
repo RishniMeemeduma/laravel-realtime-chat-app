@@ -33,9 +33,16 @@ jobs:
         php-version: '8.4'
         tools: composer:v2
         extensions: mbstring, pdo, pdo_mysql
+
+    -  name: cache dependencies
+       uses: actions/cache@v4.2.0
+       with: 
+          key: composer-cache-${{ hashFiles('**/composer.lock')}}
+          path: /vendor
+
         
      - name : install dependencies
-       run: composer install -q --no-interaction
+       run: composer install -q --no-interaction --no-progress
 
      - name : prep application
        run : |
